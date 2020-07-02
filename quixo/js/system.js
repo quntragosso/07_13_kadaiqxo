@@ -10,6 +10,7 @@ $(function () {
     let droppedCol;
 
 
+    // 手番交代用関数
     function turnSwitch() {
         if (status == "circle") {
             status = "cross"
@@ -18,10 +19,12 @@ $(function () {
         };
     };
 
+    // 右に誰の手番か表示する。
     function text() {
         $("#right_column").text(status + "の手番です。");
     };
 
+    // 触っていいコマを判定する。だけだったのですが、draggable()周りが機能する条件的にとても長くなっていました。
     function touchableManager() {
         // 全マスに対する一般化。
         $(".grids").each(function () {
@@ -40,6 +43,7 @@ $(function () {
             revert: true
         });
 
+        // ajax通信
         function toPhp() {
             $.ajax({
                 type: "POST",
@@ -53,7 +57,8 @@ $(function () {
                     "dropped_col": droppedCol,
                 }
             }).done(function (result) {
-                console.log(result);
+                turnSwitch();
+                text();
             }).fail(function () {
                 // 通信失敗時の処理を記述
                 console.log("error")
@@ -135,7 +140,7 @@ $(function () {
 
 
 
-
+    // phpから値が返ってきたときに使うことになるclassreset。まだ返ってきてないので使用してない。
     function classReset() {
         $(".grids").each(function () {
             $(this).removeClass("untouchable");
@@ -149,6 +154,7 @@ $(function () {
     text();
     touchableManager();
 
+    // マス目の背景決定。
     $(".grids").each(function () {
         const thisClass = $(this).attr("class");
         let class_array = thisClass.split(" ");

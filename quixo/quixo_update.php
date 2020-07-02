@@ -3,38 +3,39 @@
 include("functions.php");
 $row_or_col;
 
-// $game_id = $_POST["game_id"];
-// $selected_row = $_POST["selected_row"];
-// $selected_col = $_POST["selected_col"];
-// $status = $_POST["status"];
-// $dropped_row = $_POST["dropped_row"];
-// $dropped_col = $_POST["dropped_col"];
+$game_id = $_POST["game_id"];
+$selected_row = $_POST["selected_row"];
+$selected_col = $_POST["selected_col"];
+$status = $_POST["status"];
+$dropped_row = $_POST["dropped_row"];
+$dropped_col = $_POST["dropped_col"];
 
 
-// $sql_first = "UPDATE quixo_database SET status = :status where game_id = :game_id AND row = :row AND col = :col";
+$sql_first = "UPDATE quixo_database SET status = :status where game_id = :game_id AND row = :row AND col = :col";
 
-// $pdo_first = connect_to_db();
-// $stmt_first = $pdo_first->prepare($sql_first);
-// $stmt_first->bindValue(":game_id", $game_id, PDO::PARAM_STR);
-// $stmt_first->bindValue(":row", $dropped_row, PDO::PARAM_STR);
-// $stmt_first->bindValue(":col", $dropped_col, PDO::PARAM_STR);
-// $stmt_first->bindValue(":status", $status, PDO::PARAM_STR);
-// $status_first = $stmt_first->execute();
+$pdo_first = connect_to_db();
+$stmt_first = $pdo_first->prepare($sql_first);
+$stmt_first->bindValue(":game_id", $game_id, PDO::PARAM_STR);
+$stmt_first->bindValue(":row", $dropped_row, PDO::PARAM_STR);
+$stmt_first->bindValue(":col", $dropped_col, PDO::PARAM_STR);
+$stmt_first->bindValue(":status", $status, PDO::PARAM_STR);
+$status_first = $stmt_first->execute();
 
-// // データ登録処理後
-// if ($status_first == false) {
-//     // SQL実行に失敗した場合はここでエラーを出力し，以降の処理を中止する
-//     $error = $stmt_first->errorInfo();
-//     echo json_encode(["error_msg" => "{$error[2]}"]);
-//     exit();
-// } else {
-// };
+// データ登録処理後
+if ($status_first == false) {
+    // SQL実行に失敗した場合はここでエラーを出力し，以降の処理を中止する
+    $error = $stmt_first->errorInfo();
+    echo json_encode(["error_msg" => "{$error[2]}"]);
+    exit();
+} else {
+};
 
-$game_id = "348143";
-$selected_row = "r3";
-$selected_col = "c4";
-$dropped_row = "r5";
-$dropped_col = "c4";
+// テスト用
+// $game_id = "348143";
+// $selected_row = "r3";
+// $selected_col = "c4";
+// $dropped_row = "r5";
+// $dropped_col = "c4";
 
 $selected_row_str = str_replace("r", "", $selected_row);
 $selected_row_int = (int) $selected_row_str;
@@ -121,9 +122,11 @@ if ($status_second == false) {
     exit();
 } else {
     $result = $stmt_second->fetchAll(PDO::FETCH_ASSOC);
-    var_dump($result[1]);
+    var_dump($result);
 };
 
 if ($row_or_col == "row") {
+    if ($selected_row_int > $dropped_row_int) {
+    }
 } else if ($row_or_col == "col") {
 };
