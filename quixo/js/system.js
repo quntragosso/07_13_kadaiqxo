@@ -24,6 +24,24 @@ $(function () {
         $("#right_column").text(status + "の手番です。");
     };
 
+    // クラス操作
+    function classResetALL() {
+        $(".grids").each(function () {
+            $(this).removeClass("untouchable");
+            $(this).removeClass("draggable");
+            $(this).removeClass("ui-droppable");
+        });
+    };
+
+    // マス目の背景決定。
+    function backgrounsManager() {
+        $(".grids").each(function () {
+            const thisClass = $(this).attr("class");
+            let class_array = thisClass.split(" ");
+            $(this).find("div").css("background", "url('img/" + class_array[3] + ".png')");
+        });
+    }
+
     // 触っていいコマを判定する。だけだったのですが、draggable()周りが機能する条件的にとても長くなっていました。
     function touchableManager() {
         // 全マスに対する一般化。
@@ -57,8 +75,20 @@ $(function () {
                     "dropped_col": droppedCol,
                 }
             }).done(function (result) {
+                jsonArray = JSON.parse(result);
+                console.log(jsonArray);
+
+                for (let i = 0; i < jsonArray.length; i++) {
+                    $(`#${jsonArray[i][0]}`).removeClass("none");
+                    $(`#${jsonArray[i][0]}`).removeClass("circle");
+                    $(`#${jsonArray[i][0]}`).removeClass("cross");
+                    $(`#${jsonArray[i][0]}`).addClass(jsonArray[i][1]);
+                };
+
                 turnSwitch();
                 text();
+                backgrounsManager();
+                touchableManager();
             }).fail(function () {
                 // 通信失敗時の処理を記述
                 console.log("error")
@@ -80,6 +110,7 @@ $(function () {
                     selectedCol = selectedClassArray[2];
                     droppedRow = droppedClassArray[1];
                     droppedCol = droppedClassArray[2];
+                    classResetALL();
                     toPhp();
                 }
             });
@@ -94,6 +125,7 @@ $(function () {
                     selectedCol = selectedClassArray[2];
                     droppedRow = droppedClassArray[1];
                     droppedCol = droppedClassArray[2];
+                    classResetALL();
                     toPhp();
                 }
             });
@@ -108,6 +140,7 @@ $(function () {
                     selectedCol = selectedClassArray[2];
                     droppedRow = droppedClassArray[1];
                     droppedCol = droppedClassArray[2];
+                    classResetALL();
                     toPhp();
                 }
             });
@@ -122,6 +155,7 @@ $(function () {
                     selectedCol = selectedClassArray[2];
                     droppedRow = droppedClassArray[1];
                     droppedCol = droppedClassArray[2];
+                    classResetALL();
                     toPhp();
                 }
             });
@@ -139,27 +173,10 @@ $(function () {
     };
 
 
-
-    // phpから値が返ってきたときに使うことになるclassreset。まだ返ってきてないので使用してない。
-    function classReset() {
-        $(".grids").each(function () {
-            $(this).removeClass("untouchable");
-            $(this).removeClass("draggable");
-            $(this).removeClass("none");
-            $(this).removeClass("circle");
-            $(this).removeClass("cross");
-        });
-    };
-
+    // 初期起動
     text();
     touchableManager();
-
-    // マス目の背景決定。
-    $(".grids").each(function () {
-        const thisClass = $(this).attr("class");
-        let class_array = thisClass.split(" ");
-        $(this).find("div").css("background", "url('img/" + class_array[3] + ".png')");
-    });
+    backgrounsManager();
 
 
 });

@@ -61,12 +61,14 @@ table {
 }
 
 .grids > div {
-    width: 100px;
-    height: 100px;
+    margin: 0 auto;
+    width: 80px;
+    height: 80px;
 }
 
 .untouchable {
     pointer-events: none;
+    background-color: gray;
 }
 
 .droppable {

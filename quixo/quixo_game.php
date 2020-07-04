@@ -49,7 +49,6 @@ if ($game_id == "newgame") {
     };
 }
 
-
 $sql_load = "SELECT * from quixo_database where game_id = :game_id AND is_game = :not_game ORDER BY id asc";
 
 $pdo_load = connect_to_db();
